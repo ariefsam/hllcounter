@@ -1,28 +1,11 @@
-package main
+package hllcounter
 
-import "fmt"
 import "github.com/influxdata/influxdb/pkg/estimator/hll"
 
 type Counter struct {
 	hll        *hll.Plus
 	hllCounter []*hll.Plus
 	max        int
-}
-
-func main() {
-	counter := NewCounter()
-	b := counter.Add("User 4569 visit home")
-	fmt.Println(b)
-	b = counter.Add("User 4569 visit home")
-	fmt.Println(b)
-	b = counter.Add("User 4569 visit home")
-	fmt.Println(b)
-	b = counter.Add("User 888 visit home")
-	fmt.Println(b)
-	b = counter.HowMany("User 888 visit home")
-	fmt.Println(b)
-	b = counter.HowMany("User 4569 visit home")
-	fmt.Println(b)
 }
 
 func (counter *Counter) Add(s string) int {
