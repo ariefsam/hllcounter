@@ -40,3 +40,6 @@ func main() {
 
 # Credit
 Thanks to [https://github.com/influxdata/influxdb] for Hyperloglog Library. When we test their library, error rate max only at 0.2%
+
+# Milestone
+Now we only count max 8 every key. Next we will Upgrade Capacity to max integer
