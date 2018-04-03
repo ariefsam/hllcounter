@@ -17,6 +17,12 @@ func main() {
 	fmt.Println(b)
 	b = counter.Add("User 4569 visit home")
 	fmt.Println(b)
+	b = counter.Add("User 888 visit home")
+	fmt.Println(b)
+	b = counter.HowMany("User 888 visit home")
+	fmt.Println(b)
+	b = counter.HowMany("User 4569 visit home")
+	fmt.Println(b)
 }
 
 func (counter *Counter) Add(s string) int {
@@ -25,8 +31,23 @@ func (counter *Counter) Add(s string) int {
 	var cek bool
 	i = 0
 	for i < counter.max {
+		cek = counter.cekCounterAdd(i, el)
+		i = i + 1
+		if cek == true {
+			return i
+		}
+	}
+	return i
+}
+
+func (counter *Counter) HowMany(s string) int {
+	el := []byte(s)
+	var cek bool
+	var i int
+	i = 0
+	for i < counter.max {
 		cek = counter.cekCounter(i, el)
-		if cek == false {
+		if cek == true {
 			return i
 		}
 		i = i + 1
@@ -36,10 +57,20 @@ func (counter *Counter) Add(s string) int {
 
 func (counter *Counter) cekCounter(i int, element []byte) bool {
 	countBefore := counter.hllCounter[i].Count()
+	var clone = counter.hllCounter[i].Clone()
+	clone.Add(element)
+	countAfter := clone.Count()
+	if countAfter != countBefore {
+		return true
+	} else {
+		return false
+	}
+}
+
+func (counter *Counter) cekCounterAdd(i int, element []byte) bool {
+	countBefore := counter.hllCounter[i].Count()
 	counter.hllCounter[i].Add(element)
 	countAfter := counter.hllCounter[i].Count()
-	fmt.Println(countBefore)
-	fmt.Println(countAfter)
 	if countAfter != countBefore {
 		return true
 	} else {
